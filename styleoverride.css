@@ -1,0 +1,13 @@
+.input-group-prepend-override {
+  width : 150px; /* adjust as needed */
+  /* min-width: 40px; */
+}
+.input-group-prepend-symbol-override {
+  width : 35px; /* adjust as needed */
+  /* min-width: 40px; */
+}
+
+.input-group-prepend label {
+  width: 100%;
+  overflow: hidden;
+}
