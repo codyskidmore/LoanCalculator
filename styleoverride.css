@@ -11,3 +11,8 @@
   width: 100%;
   overflow: hidden;
 }
+
+.li-right{
+  text-align: left;
+  padding-top: 5px;  
+}

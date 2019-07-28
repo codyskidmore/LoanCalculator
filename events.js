@@ -22,7 +22,7 @@ function calculateResults(e){
         totalInterest.value = `$${((monthly * calculatedPayments) - principal).toFixed(2)}`;
     }
     else {
-        showError('please check your numbers.');
+        showErrorDialog.showMessage('Invalid numbers entered. Please check then and try again.');
     }
 
     e.preventDefault();
@@ -32,25 +32,23 @@ function assertNotNull(value, valueName){
     console.assert(value !== null, `${valueName} is null`);
 }
 
-// Redesign as a class that excepts the message & parent in the constructor
-function showError(message){
-    const card = document.getElementById('card');
-    const heading = document.getElementById('heading');
+function globalErrorHandler(msg, url, line, col, error) {
+    ///// Borrowed this from a guy who borrowed it from 
+    ///// someone else and put it on StackOverflow.
 
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'alert alert-danger';
-    errorDiv.id = 'error-message';
-    errorDiv.appendChild(document.createTextNode(message));
-
-    const closeButton = document.createElement('button');
-    closeButton.className = "btn btn-danger btn-block mt-4";
-    closeButton.textContent = 'Close';
-    closeButton.onclick = clearError;
-    errorDiv.appendChild(closeButton);
-    // add button that closes the div. have it call clearError().
-    card.insertBefore(errorDiv, heading);
-}
-
-function clearError(e){
-    document.getElementById('error-message').remove();
-}
+    // Note that col & error are new to the HTML 5 spec and may not be 
+    // supported in every browser.  It worked for me in Chrome.
+    var extra = !col ? '' : '\ncolumn: ' + col;
+    extra += !error ? '' : '\nerror: ' + error;
+ 
+    // You can view the information in an alert to see things working like this:
+    alert("Error: " + msg + "\nurl: " + url + "\nline: " + line + extra);
+ 
+    // TODO: Report this error via ajax so you can keep track
+    //       of what pages have JS issues
+ 
+    var suppressErrorAlert = true;
+    // If you return true, then error alerts (like in older versions of 
+    // Internet Explorer) will be suppressed.
+    return suppressErrorAlert;
+ }
