@@ -9,11 +9,14 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="styleoverride.css"/>
+    <link rel="stylesheet" href="styleoverride.css" />
     <title>Hello, world!</title>
 </head>
 
 <body class="bg-dark">
+    <div class="container" id="modal-container">
+    </div>
+
     <div class="container">
         <div class="row">
             <div id='card' class="card card-body text-center mt-5">
@@ -50,25 +53,25 @@
                 <!-- RESULTS HERE-->
                 <div id="results" class="pt-4">
                     <div class="form-group">
-                            <h5>Results</h5>
-                            <div class="input-group">
-                                <div class="input-group-prepend input-group-prepend-override">
-                                    <span class="input-group-text w-100">Monthly Payment</span>
-                                </div>
-                                <input type="text" class="form-control" id="monthly-payment" disabled>
+                        <h5>Results</h5>
+                        <div class="input-group">
+                            <div class="input-group-prepend input-group-prepend-override">
+                                <span class="input-group-text w-100">Monthly Payment</span>
                             </div>
-                            <div class="input-group">
-                                <div class="input-group-prepend input-group-prepend-override">
-                                    <span class="input-group-text w-100">Total Payment</span>
-                                </div>
-                                <input type="text" class="form-control" id="total-payment" disabled>
+                            <input type="text" class="form-control" id="monthly-payment" disabled>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend input-group-prepend-override">
+                                <span class="input-group-text w-100">Total Payment</span>
                             </div>
-                            <div class="input-group">
-                                <div class="input-group-prepend input-group-prepend-override ">
-                                    <span class="input-group-text w-100">Total Interest</span>
-                                </div>
-                                <input type="text" class="form-control" id="total-interest" disabled>
+                            <input type="text" class="form-control" id="total-payment" disabled>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend input-group-prepend-override ">
+                                <span class="input-group-text w-100">Total Interest</span>
                             </div>
+                            <input type="text" class="form-control" id="total-interest" disabled>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -86,10 +89,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-        <script src="ShowErrorDialog.js"></script>
-        <script src="consts.js"></script>
-        <script src="events.js"></script>
-        <script src="app.js"></script>
+    <script src="ShowErrorDialog.js"></script>
+    <script src="consts.js"></script>
+    <script src="events.js"></script>
+    <script src="app.js"></script>
 </body>
 
 </html>

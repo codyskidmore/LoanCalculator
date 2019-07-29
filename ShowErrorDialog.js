@@ -1,63 +1,47 @@
 const _parentDiv = Symbol('_parentDiv');
-const _getErrorDiv = Symbol('_getErrorDiv');
-const _errorDiv = Symbol('_errorDiv');
-const _errorMessages = Symbol('_errorMessages');
-const _getCloseButton = Symbol('_getCloseButton');
-
-function clearErrorEvent(e){
-    showErrorDialog.close(e);
-    e.preventDefault();
-}
+const _modalHeader = Symbol('_modalHeader');
+const _modalMessage = Symbol('_modalMessage');
 
 class ShowErrorDialog{
-    constructor(parentDiv, closeEvent){
+    constructor(parentDiv, modalHeader, message){
         this[_parentDiv] = parentDiv;
-        const errorDiv = this[_getErrorDiv](this[_getCloseButton](closeEvent));
-        this[_errorDiv] = errorDiv
+        this[_modalHeader] = modalHeader;
+        this[_modalMessage] = message;
     }
-    showMessage(message){
-        this[_errorMessages].appendChild(document.createTextNode(message));
-        this[_parentDiv].appendChild(this[_errorDiv]);
-    }
-    close(e){
-        while(this[_errorMessages].firstChild){
-            this[_errorMessages].removeChild(this[_errorMessages].firstChild);
-        }
-        this[_parentDiv].firstChild.remove();
-    }
-    showErrors(message, errors){
-        const h5 = document.createElement('h5');
-        h5.textContent = message;
-        this[_errorMessages].appendChild(h5);
-        
+    showErrors(errors){
         const ul = document.createElement('ul');
         let li = null;
         errors.forEach(error => {
             li = document.createElement('li');
-            li.className = "li-right";
             li.textContent = error;
             ul.appendChild(li);
         });
 
-        this[_errorMessages].appendChild(ul);
-        this[_parentDiv].appendChild(this[_errorDiv]);
-    }
-
-    /////// Private methods ////
-    [_getErrorDiv](closeButton){
-        const errorDiv = document.createElement('div');
-        this[_errorMessages] = document.createElement('div');
-        errorDiv.className = 'alert alert-danger';
-        errorDiv.id = 'error-message';
-        errorDiv.appendChild(this[_errorMessages]);
-        errorDiv.appendChild(closeButton);
-        return errorDiv;
-    }
-    [_getCloseButton](closeEvent){
-        const closeButton = document.createElement('button');
-        closeButton.className = "btn btn-danger btn-block mt-4";
-        closeButton.textContent = 'Close';
-        closeButton.onclick = closeEvent;
-        return closeButton;
+        this[_parentDiv].innerHTML = `
+            <button id = 'open-button' type="button" data-toggle="modal" data-target="#error-modal">Open Modal</button>
+            <!-- Modal -->
+            <div id="error-modal" class="modal fade" role="dialog">
+                <div class="modal-dialog alert alert-danger" role="alert">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">${this[_modalHeader]}</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <h6>${this[_modalMessage]}</h6>
+                            <ul>${ul.innerHTML}</ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>        
+        `;        
+        // This forces the modal to pop up without having to the user interact 
+        // with a button. It is a little hack-ish but affective.
+        const openButton = document.getElementById('open-button');
+        openButton.click();
     }
 }

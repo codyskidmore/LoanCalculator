@@ -16,3 +16,10 @@
   text-align: left;
   padding-top: 5px;  
 }
+
+#open-button{
+  height: 0px;
+  width: 0px;
+  display: none;
+  visibility: hidden
+}
