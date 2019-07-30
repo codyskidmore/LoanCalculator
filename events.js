@@ -1,35 +1,76 @@
-function calculateResults(e){
-    const amount = document.getElementById('amount');
-    const interest = document.getElementById('interest');
-    const years = document.getElementById('years');
-    const monthlyPayment = document.getElementById('monthly-payment');
-    const totalPayment = document.getElementById('total-payment');
-    const totalInterest = document.getElementById('total-interest');
-
-    const principal = parseFloat(amount.value);
-    // add validation that verifies interest & years have values. Otherwise we get a divide by zero error.
-    const calculatedInterest = parseFloat(interest.value) / 100 / 12;
-    const calculatedPayments = parseFloat(years.value) * 12;
-
-    // Compute monthly payment
-    const x = Math.pow(1 + calculatedInterest, calculatedPayments);
-    const monthly = (principal*x*calculatedInterest)/(x-1);
-
-    // Redo this
-    if (isFinite(monthly)){
-        monthlyPayment.value = `$${monthly.toFixed(2)}`;
-        totalPayment.value = `$${(monthly * calculatedPayments).toFixed(2)}`;
-        totalInterest.value = `$${((monthly * calculatedPayments) - principal).toFixed(2)}`;
+// Makes sure our event ids are unique.
+class EventId{
+    static invalidTargetTypeEvent() {
+        return 1;
     }
-    else {
-        showErrorDialog.showMessage('Invalid numbers entered. Please check then and try again.');
+    static emptyInvalidInputValueEvent() {
+        return 2;
     }
+    static invalidTargetIdEvent() {
+        return 3;
+    }
+    static taskAlreadyDefinedEvent() {
+        return 4;
+    }
+    static valueLessThanOrZeroEvent() {
+        return 5;
+    }
+}
 
+class EventInfo{
+    constructor(eventId, message){
+        this.eventId = eventId;
+        this.message = message;
+    }
+}
+
+class GreaterThanZeroEvent extends EventInfo{
+    constructor(targetName){
+        super(EventId.valueLessThanOrZeroEvent(), `${targetName} must be greater than zero.`);
+    }
+}
+
+class InvalidTargetTypeEvent extends EventInfo{
+    constructor(expectedTarget, actualTarget){
+        super(EventId.invalidTargetTypeEvent(), `Invalid target type: ${actualTarget}. Type must be ${expectedTarget}`);
+    }
+}
+
+class EmptyInputValueEvent extends EventInfo{
+    constructor(targetName){
+        super(EventId.emptyInvalidInputValueEvent(), `Invalid input value for ${targetName} cannot be empty.`);
+    }
+}
+
+class InvalidTargetIdEvent extends EventInfo{
+    constructor(expectedTargetId, actualTargetId){
+        super(EventId.invalidTargetIdEvent(), `Invalid target Id: ${actualTargetId}. ID must be ${expectedTargetId}`);
+    }
+}
+
+class TaskExistsEvent extends EventInfo{
+    constructor(taskName){
+        super(EventId.taskAlreadyDefinedEvent(), `Task '${taskName}' already exists.`)
+    }
+}
+
+function filterItemEvent(e){
+    taskController.filterTaskList(e);
+}
+
+function addItemEvent(e){
+    taskController.addItemEvent(e);
     e.preventDefault();
 }
 
-function assertNotNull(value, valueName){
-    console.assert(value !== null, `${valueName} is null`);
+function clearTasksEvent(e){
+    taskController.clearTasksEvent(e);
+    e.preventDefault();
+}
+
+function deleteItemEvent(e){
+    taskController.deleteItemEvent(e);
+    e.preventDefault();
 }
 
 function globalErrorHandler(msg, url, line, col, error) {

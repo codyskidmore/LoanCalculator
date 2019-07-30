@@ -1,23 +1,23 @@
-const _parentDiv = Symbol('_parentDiv');
-const _modalHeader = Symbol('_modalHeader');
-const _modalMessage = Symbol('_modalMessage');
+const _showErrorDialogParentDiv = Symbol('_showErrorDialogParentDiv');
+const _showErrorDialogHeader = Symbol('__showErrorDialogHeader');
+const _showErrorDialogHeaderMessage = Symbol('_showErrorDialogHeaderMessage');
 
 class ShowErrorDialog{
     constructor(parentDiv, modalHeader, message){
-        this[_parentDiv] = parentDiv;
-        this[_modalHeader] = modalHeader;
-        this[_modalMessage] = message;
+        this[_showErrorDialogParentDiv] = parentDiv;
+        this[_showErrorDialogHeader] = modalHeader;
+        this[_showErrorDialogHeaderMessage] = message;
     }
     showErrors(errors){
         const ul = document.createElement('ul');
         let li = null;
-        errors.forEach(error => {
+        errors.forEach(errorEvent => {
             li = document.createElement('li');
-            li.textContent = error;
+            li.textContent = `EventId: ${errorEvent.eventId}, Message: ${errorEvent.message}`;
             ul.appendChild(li);
         });
 
-        this[_parentDiv].innerHTML = `
+        this[_showErrorDialogParentDiv].innerHTML = `
             <button id = 'open-button' type="button" data-toggle="modal" data-target="#error-modal">Open Modal</button>
             <!-- Modal -->
             <div id="error-modal" class="modal fade" role="dialog">
@@ -25,11 +25,11 @@ class ShowErrorDialog{
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">${this[_modalHeader]}</h4>
+                            <h4 class="modal-title">${this[_showErrorDialogHeader]}</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
-                            <h6>${this[_modalMessage]}</h6>
+                            <h6>${this[_showErrorDialogHeaderMessage]}</h6>
                             <ul>${ul.innerHTML}</ul>
                         </div>
                         <div class="modal-footer">
