@@ -13,7 +13,7 @@ class ShowErrorDialog{
         let li = null;
         errors.forEach(errorEvent => {
             li = document.createElement('li');
-            li.textContent = `EventId: ${errorEvent.eventId}, Message: ${errorEvent.message}`;
+            li.textContent = errorEvent.message;
             ul.appendChild(li);
         });
 
